@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "isomorphic-unfetch": "^3.0.0",
+    "jw-paginate": "^1.0.4",
     "mongoose": "^5.7.1",
     "mongoose-auto-increment": "^5.0.1",
     "request": "^2.88.0"

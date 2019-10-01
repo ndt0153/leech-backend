@@ -7,7 +7,10 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const dbconfig = require("./db");
 const mongoose = require("mongoose");
+const paginate = require("jw-paginate");
 const app = express();
+const ApkModel = require("./model/apk.model");
+const router = express.Router();
 app.use(cors());
 
 /* Parse the ndjson as text */
@@ -22,6 +25,35 @@ mongoose.Promise = global.Promise;
 
 // Require Route
 require("./route/apk.route")(app);
+
+// Page Router
+app.get("/page", async (req, res, next) => {
+  const items = await ApkModel.countDocuments({}, function(err, count) {
+    return count;
+  });
+  console.log(await items);
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = 10;
+  const pager = await paginate(items, page, pageSize);
+  let list = [];
+  for (let i = pager.startIndex; i <= pager.endIndex; i++) {
+    list.push(i);
+  }
+  let data = await ApkModel.find(
+    { id: { $in: list } },
+    { id: true, Title: true },
+
+    function(err, docs) {
+      if (err) {
+        console.log(err);
+      }
+      return docs;
+    }
+  );
+  // const pageOfItems = await items.slice(pager.startIndex, pager.endIndex + 1);
+  return res.json({ pager, data });
+});
+
 //Connect DB
 mongoose
   .connect(dbconfig.url, {
