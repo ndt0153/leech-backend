@@ -58,7 +58,7 @@ async function fuckAPYMODY(link) {
             //check if Genre field or not
             let category = "";
             checkGenre = $(".entry-content tr");
-            if (checkGenre == 8) {
+            if (checkGenre.length == 8) {
               pub = $(".entry-content tr:nth-child(2) td").text();
               category = $(".entry-content tr:nth-child(3) td").text();
               lastVer = $(".entry-content tr:nth-child(4) td").text();
@@ -137,6 +137,6 @@ async function fuckAPYMODY(link) {
     })
   );
 }
-//fuckAPYMODY(["https://apkmody.io/games/last-day-on-earth-survival.html"]);
+fuckAPYMODY(["https://apkmody.io/games/dragnboom.html"]);
 fuck = fuckAPYMODY;
 module.exports.fuck = fuck;
